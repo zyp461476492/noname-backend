@@ -2,7 +2,7 @@
 ## 目录结构
 * controller (控制器)
 * domain (详情见阿里巴巴java编码规范)
-   * DO (Data Object)
+   * DO (Data Object) 更名为entity
    * DTO (Data Transfer Object)
    * BO (Business Object)
    * AO (Application Object)
