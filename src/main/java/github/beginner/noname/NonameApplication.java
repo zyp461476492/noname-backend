@@ -3,6 +3,10 @@ package github.beginner.noname;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
+/**
+ * @author springboot.io
+ */
 @SpringBootApplication
 public class NonameApplication {
 
