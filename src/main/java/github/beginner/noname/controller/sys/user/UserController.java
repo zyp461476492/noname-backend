@@ -2,36 +2,51 @@ package github.beginner.noname.controller.sys.user;
 
 import com.alibaba.fastjson.JSON;
 import github.beginner.noname.controller.BaseController;
+import github.beginner.noname.domain.constant.MsgConstant;
+import github.beginner.noname.domain.dto.common.ResponseMsg;
 import github.beginner.noname.domain.dto.common.UpdateDTO;
-import github.beginner.noname.domain.entity.sys.user.UserDO;
+import github.beginner.noname.domain.dto.sys.user.UserDTO;
+import github.beginner.noname.domain.entity.sys.user.UserEntity;
 import github.beginner.noname.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * @author zyp on 2018-12-6.
  */
+@Slf4j
 @RestController
 @RequestMapping("/sys/user")
 @Api(value = "用户模块API")
 public class UserController extends BaseController {
     private final UserService userService;
 
+    private final ModelMapper modelMapper;
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ModelMapper modelMapper) {
         this.userService = userService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping(value = "/del/{id}")
     @ApiOperation(value = "用户删除", notes = "根据传入ID删除用户")
     @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", example = "1")
     public String deleteUser(@PathVariable("id") Long id) {
-        return JSON.toJSONString(userService.deleteUserById(id));
+        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.DEL_SUCC);
+        boolean delFlag = userService.deleteUserById(id);
+        if (delFlag) {
+            retMsg.setFailResponse(MsgConstant.DEL_FAIL);
+        }
+        return JSON.toJSONString(retMsg);
     }
 
     @GetMapping(value = "/list/")
@@ -42,18 +57,39 @@ public class UserController extends BaseController {
     })
     public String queryUserList(@RequestParam(value = "offset", defaultValue = "0") Integer offset,
                                 @RequestParam(value = "limit", defaultValue = "20") Integer limit) {
-        return JSON.toJSONString(userService.findAll(PageRequest.of(offset, limit)));
+        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
+        Page<UserEntity> queryPage = userService.findAll(PageRequest.of(offset, limit));
+        Page<UserDTO> retPage = queryPage.map(this::convertToUserDTO);
+        retMsg.setData(retPage);
+        return JSON.toJSONString(retMsg);
     }
 
     @PostMapping(value = "/add/")
     @ApiOperation(value = "新增用户")
-    public String addUser(@RequestBody UserDO user) {
-        return JSON.toJSONString(userService.addUser(user));
+    public String addUser(@RequestBody UserEntity user) {
+        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.ADD_SUCC);
+        UserDTO userDTO = convertToUserDTO(userService.addUser(user));
+        retMsg.setData(userDTO);
+        return JSON.toJSONString(retMsg);
     }
 
     @PostMapping(value = "/update/")
     @ApiOperation(value = "更新用户信息", notes = "传递更新信息和更新人数据")
-    public String updateUser(@RequestBody UpdateDTO<UserDO> updateData) {
-        return JSON.toJSONString(userService.updateUser(updateData.getData(), updateData.getUpdateBy()));
+    public String updateUser(@RequestBody UpdateDTO<UserEntity> updateData) {
+        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.UPDATE_SUCC);
+        UserDTO userDTO = convertToUserDTO(userService.updateUser(updateData.getData(), updateData.getUpdateBy()));
+        retMsg.setData(userDTO);
+        return JSON.toJSONString(retMsg);
+    }
+
+    /**
+     * 将 userEntity 转换为 userDTO
+     * @param user 待转化的entity
+     * @return dto
+     */
+    private UserDTO convertToUserDTO(final UserEntity user) {
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+        logger.info("userDTO: " + userDTO);
+        return userDTO;
     }
 }

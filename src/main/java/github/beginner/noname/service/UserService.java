@@ -1,7 +1,7 @@
 package github.beginner.noname.service;
 
-import github.beginner.noname.domain.dto.common.ResponseMsg;
-import github.beginner.noname.domain.entity.sys.user.UserDO;
+import github.beginner.noname.domain.entity.sys.user.UserEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
@@ -14,7 +14,7 @@ public interface UserService {
      * @param pageable 分页组件
      * @return ResponseMsg
      */
-    ResponseMsg findAll(Pageable pageable);
+    Page<UserEntity> findAll(Pageable pageable);
 
     /**
      * 删除用户
@@ -22,7 +22,7 @@ public interface UserService {
      * @param id 用户ID
      * @return ResponseMsg
      */
-    ResponseMsg deleteUserById(Long id);
+    boolean deleteUserById(Long id);
 
     /**
      * 添加用户
@@ -30,7 +30,7 @@ public interface UserService {
      * @param user 用户信息
      * @return ResponseMsg
      */
-    ResponseMsg addUser(UserDO user);
+    UserEntity addUser(UserEntity user);
 
     /**
      * 更新用户
@@ -39,7 +39,7 @@ public interface UserService {
      * @param updateBy 更新人ID
      * @return ResponseMsg
      */
-    ResponseMsg updateUser(UserDO user, Integer updateBy);
+    UserEntity updateUser(UserEntity user, Integer updateBy);
 
     /**
      * 检查重名用户
@@ -47,5 +47,5 @@ public interface UserService {
      * @param name 姓名
      * @return ResponseMsg
      */
-    ResponseMsg checkUserName(String name);
+    boolean checkUserName(String name);
 }

@@ -1,6 +1,6 @@
 package github.beginner.noname.repository.sys;
 
-import github.beginner.noname.domain.entity.sys.user.UserDO;
+import github.beginner.noname.domain.entity.sys.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author zyp on 2018-12-6.
  */
-public interface UserRepository extends JpaRepository<UserDO, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
     /**
      * 根据姓名判断是否存在用户
      *

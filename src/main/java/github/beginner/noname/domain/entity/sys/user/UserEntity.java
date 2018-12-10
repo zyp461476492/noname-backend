@@ -1,6 +1,6 @@
 package github.beginner.noname.domain.entity.sys.user;
 
-import github.beginner.noname.domain.entity.BaseDO;
+import github.beginner.noname.domain.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @ApiModel(value = "User")
 @Entity
 @Table(name = "sys_user")
-public class UserDO extends BaseDO {
+public class UserEntity extends BaseEntity {
     @Column(name = "name", length = 128)
     private String name;
 
