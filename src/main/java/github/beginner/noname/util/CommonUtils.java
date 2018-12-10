@@ -1,4 +1,4 @@
-package github.beginner.noname.utils;
+package github.beginner.noname.util;
 
 import java.util.Collection;
 import java.util.Map;
@@ -30,4 +30,5 @@ public class CommonUtils {
 
         return false;
     }
+
 }

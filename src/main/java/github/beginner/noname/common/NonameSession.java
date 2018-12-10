@@ -1,6 +1,6 @@
 package github.beginner.noname.common;
 
-import github.beginner.noname.utils.LangUtils;
+import github.beginner.noname.util.LangUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
