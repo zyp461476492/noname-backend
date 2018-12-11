@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 /**
  * @author zyp on 2018-12-6.
@@ -53,6 +55,11 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
     public UserEntity addUser(UserEntity user) {
         user.onCreate();
         return userRepository.save(user);
+    }
+
+    @Override
+    public Optional<UserEntity> queryUserById(Long id) {
+        return userRepository.findById(id);
     }
 
     @Override

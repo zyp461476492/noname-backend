@@ -12,6 +12,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class UserDTO extends BaseDTO {
+    private String loginId;
+
     private String name;
 
     private String identifyCard;
@@ -23,6 +25,8 @@ public class UserDTO extends BaseDTO {
     private String lastLoginIp;
 
     private String avatar;
+
+    private String gender;
 
     private Integer order;
 

@@ -18,6 +18,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "sys_user")
 public class UserEntity extends BaseEntity {
+    @Column(name = "login_id", length = 16)
+    private String loginId;
+
     @Column(name = "name", length = 128)
     private String name;
 
@@ -39,6 +42,9 @@ public class UserEntity extends BaseEntity {
     @Column(name = "avatar", length = 512)
     private String avatar;
 
+    @Column(name = "gender", length = 4)
+    private String gender;
+
     @Column(name = "user_order")
     private Integer order;
 
@@ -47,5 +53,7 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "status")
     private Integer status;
+
+
 
 }

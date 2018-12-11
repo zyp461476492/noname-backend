@@ -27,6 +27,8 @@ public class BaseEntity {
 
     public void onCreate() {
         this.createDate = System.currentTimeMillis();
+        this.updateDate = System.currentTimeMillis();
+        this.updateBy = 1;
     }
 
     public void onUpdate(Integer updateBy) {

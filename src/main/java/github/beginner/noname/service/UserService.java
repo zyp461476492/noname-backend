@@ -4,6 +4,8 @@ import github.beginner.noname.domain.entity.sys.user.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 /**
  * @author zyp on 2018-12-6.
  */
@@ -31,6 +33,13 @@ public interface UserService {
      * @return ResponseMsg
      */
     UserEntity addUser(UserEntity user);
+
+    /**
+     * 根据ID查询用户数据
+     * @param id id
+     * @return 用户信息
+     */
+    Optional<UserEntity> queryUserById(Long id);
 
     /**
      * 更新用户

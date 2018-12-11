@@ -3,7 +3,7 @@ package github.beginner.noname.domain.dto;
 import lombok.Data;
 
 /**
- * @author 46147
+ * @author zyp on 2018-12-10
  */
 @Data
 public class BaseDTO {

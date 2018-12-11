@@ -19,6 +19,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
+
 /**
  * @author zyp on 2018-12-6.
  */
@@ -37,17 +40,6 @@ public class UserController extends BaseController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping(value = "/del/{id}")
-    @ApiOperation(value = "用户删除", notes = "根据传入ID删除用户")
-    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", example = "1")
-    public String deleteUser(@PathVariable("id") Long id) {
-        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.DEL_SUCC);
-        boolean delFlag = userService.deleteUserById(id);
-        if (delFlag) {
-            retMsg.setFailResponse(MsgConstant.DEL_FAIL);
-        }
-        return JSON.toJSONString(retMsg);
-    }
 
     @GetMapping(value = "/list/")
     @ApiOperation(value = "用户信息分页查询")
@@ -64,10 +56,26 @@ public class UserController extends BaseController {
         return JSON.toJSONString(retMsg);
     }
 
+    @GetMapping(value = "/query/{id}")
+    @ApiOperation(value = "用户查询", notes = "根据传入ID查询用户信息")
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", example = "1")
+    public String queryUserById(@PathVariable("id") Long id) {
+        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
+        Optional<UserEntity> optionalUserEntity = userService.queryUserById(id);
+        if (optionalUserEntity.isPresent()) {
+            retMsg.setData(optionalUserEntity.get());
+        } else {
+            retMsg.setFailResponse(MsgConstant.QUERY_FAIL);
+        }
+        return JSON.toJSONString(retMsg);
+    }
+
     @PostMapping(value = "/add/")
     @ApiOperation(value = "新增用户")
     public String addUser(@RequestBody UserEntity user) {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.ADD_SUCC);
+        // 设置默认密码 目前未加密
+        user.setPassword("8888");
         UserDTO userDTO = convertToUserDTO(userService.addUser(user));
         retMsg.setData(userDTO);
         return JSON.toJSONString(retMsg);
@@ -82,14 +90,27 @@ public class UserController extends BaseController {
         return JSON.toJSONString(retMsg);
     }
 
+    @GetMapping(value = "/del/{id}")
+    @ApiOperation(value = "用户删除", notes = "根据传入ID删除用户")
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", example = "1")
+    public String deleteUser(@PathVariable("id") Long id) {
+        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.DEL_SUCC);
+        boolean delFlag = userService.deleteUserById(id);
+        if (delFlag) {
+            retMsg.setFailResponse(MsgConstant.DEL_FAIL);
+        }
+        return JSON.toJSONString(retMsg);
+    }
+
+
     /**
      * 将 userEntity 转换为 userDTO
      * @param user 待转化的entity
      * @return dto
      */
     private UserDTO convertToUserDTO(final UserEntity user) {
-        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-        logger.info("userDTO: " + userDTO);
-        return userDTO;
+        return modelMapper.map(user, UserDTO.class);
     }
+
+
 }
