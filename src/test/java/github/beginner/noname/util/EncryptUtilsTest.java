@@ -1,5 +1,6 @@
 package github.beginner.noname.util;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.security.NoSuchAlgorithmException;
@@ -27,7 +28,8 @@ public class EncryptUtilsTest {
 
     @Test
     public void generatePassword() throws NoSuchAlgorithmException {
-        System.out.println(EncryptUtils.generatePassword("wang", "pt"));
+        String result = EncryptUtils.generatePassword("wang", "pt");
+        Assert.assertEquals(EncryptUtils.encodeMD5ToString("wangpt"), result);
     }
 
     @Test
