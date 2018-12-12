@@ -3,9 +3,11 @@ package github.beginner.noname.controller.sys.user;
 import com.alibaba.fastjson.JSON;
 import github.beginner.noname.controller.BaseController;
 import github.beginner.noname.domain.constant.MsgConstant;
+import github.beginner.noname.domain.dto.BaseDTO;
 import github.beginner.noname.domain.dto.common.ResponseMsg;
 import github.beginner.noname.domain.dto.common.UpdateDTO;
 import github.beginner.noname.domain.dto.sys.user.UserDTO;
+import github.beginner.noname.domain.entity.BaseEntity;
 import github.beginner.noname.domain.entity.sys.user.UserEntity;
 import github.beginner.noname.service.UserService;
 import io.swagger.annotations.Api;
@@ -20,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -102,6 +105,13 @@ public class UserController extends BaseController {
         return JSON.toJSONString(retMsg);
     }
 
+    @PostMapping(value = "/del/batch/")
+    @ApiOperation(value = "批量删除用户", notes = "删除批量传入的用户信息")
+    public String deleteBatchUser(@RequestBody List<UserEntity> userList) {
+        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.DEL_SUCC);
+        userService.deleteBatchUser(userList);
+        return JSON.toJSONString(retMsg);
+    }
 
     /**
      * 将 userEntity 转换为 userDTO
@@ -111,6 +121,7 @@ public class UserController extends BaseController {
     private UserDTO convertToUserDTO(final UserEntity user) {
         return modelMapper.map(user, UserDTO.class);
     }
+
 
 
 }

@@ -4,6 +4,7 @@ import github.beginner.noname.domain.entity.sys.user.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -25,6 +26,13 @@ public interface UserService {
      * @return ResponseMsg
      */
     boolean deleteUserById(Long id);
+
+    /**
+     * 批量删除用户
+     * @param userList 待删除的用户
+     * @return true 删除成功
+     */
+    boolean deleteBatchUser(List<UserEntity> userList);
 
     /**
      * 添加用户
