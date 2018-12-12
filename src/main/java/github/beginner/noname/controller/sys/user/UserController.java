@@ -2,14 +2,14 @@ package github.beginner.noname.controller.sys.user;
 
 import com.alibaba.fastjson.JSON;
 import github.beginner.noname.controller.BaseController;
+import github.beginner.noname.domain.constant.CommonConstant;
 import github.beginner.noname.domain.constant.MsgConstant;
-import github.beginner.noname.domain.dto.BaseDTO;
 import github.beginner.noname.domain.dto.common.ResponseMsg;
 import github.beginner.noname.domain.dto.common.UpdateDTO;
 import github.beginner.noname.domain.dto.sys.user.UserDTO;
-import github.beginner.noname.domain.entity.BaseEntity;
 import github.beginner.noname.domain.entity.sys.user.UserEntity;
 import github.beginner.noname.service.UserService;
+import github.beginner.noname.util.EncryptUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -21,7 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,10 +75,9 @@ public class UserController extends BaseController {
 
     @PostMapping(value = "/add/")
     @ApiOperation(value = "新增用户")
-    public String addUser(@RequestBody UserEntity user) {
+    public String addUser(@RequestBody UserEntity user) throws NoSuchAlgorithmException {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.ADD_SUCC);
-        // 设置默认密码 目前未加密
-        user.setPassword("8888");
+        user.setPassword(EncryptUtils.generatePassword(user.getName(), CommonConstant.INITIALIZED_PASSWORD));
         UserDTO userDTO = convertToUserDTO(userService.addUser(user));
         retMsg.setData(userDTO);
         return JSON.toJSONString(retMsg);
