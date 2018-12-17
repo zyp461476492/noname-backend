@@ -29,4 +29,7 @@ public class MsgConstant {
     public static final String USER_NOT_EXIST = "用户不存在";
 
     public static final String USER_NAME_REPEAT = "用户重名";
+
+    // 组织机构相关数据
+    public static final String ROOT_NOT_EXIST = "无根节点";
 }

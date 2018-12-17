@@ -18,4 +18,6 @@ package github.beginner.noname.domain.constant;
 
 public class CommonConstant {
     public static final String INITIALIZED_PASSWORD = "nonameuser";
+
+    public static final Long TREE_ROOT = 0L;
 }

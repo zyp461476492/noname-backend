@@ -30,10 +30,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
     @Override
     public Page<UserEntity> findAll(Pageable pageable) {
-        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
-        Page<UserEntity> page = userRepository.findAll(pageable);
-        retMsg.setData(page);
-        return page;
+        return userRepository.findAll(pageable);
     }
 
     @Override
