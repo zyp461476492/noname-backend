@@ -34,7 +34,7 @@ public class OrgServiceImpl extends BaseServiceImpl implements OrgService {
 
     @Override
     public boolean delOrg(OrgEntity node, Integer updateBy) {
-        if (CommonConstant.TREE_ROOT.equals(node.getParent().getId())) {
+        if (node.getParent() == null) {
             return false;
         }
         List<OrgEntity> childList = orgRepository.findChildByParent(node);
@@ -51,5 +51,10 @@ public class OrgServiceImpl extends BaseServiceImpl implements OrgService {
     @Override
     public List<OrgEntity> findChild(OrgEntity parent) {
         return orgRepository.findChildByParent(parent);
+    }
+
+    @Override
+    public List<OrgEntity> findRoot() {
+        return orgRepository.findByParentIsNull();
     }
 }

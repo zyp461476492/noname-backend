@@ -40,4 +40,10 @@ public interface OrgService extends BaseService {
      * @return id对应组织机构的子树
      */
     List<OrgEntity> findChild(OrgEntity parent);
+
+    /**
+     * 查询所有的树根节点
+     * @return 返回parent为空的节点
+     */
+    List<OrgEntity> findRoot();
 }
