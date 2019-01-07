@@ -1,29 +1,33 @@
 package github.beginner.noname.domain.entity.sys.org;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import github.beginner.noname.domain.constant.CommonConstant;
 import github.beginner.noname.domain.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 组织机构实体类
  *
  * @author zyp on 2018/12/13
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @ApiModel(value = "Organization")
 @Entity
 @Table(name = "sys_organization")
 public class OrgEntity extends BaseEntity {
-    @OneToOne
-    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
     private OrgEntity parent;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "parent")
+    private Set<OrgEntity> children = new HashSet<>();
 
     @Column(name = "name", length = 128)
     private String name;
@@ -37,8 +41,8 @@ public class OrgEntity extends BaseEntity {
     @Column(name = "org_order")
     private Integer order;
 
-    @Column(name = "type")
-    private Integer type;
+    @Column(name = "type", length = 4)
+    private String type;
 
     public boolean isRoot() {
         return parent == null;
@@ -52,6 +56,7 @@ public class OrgEntity extends BaseEntity {
                 ", name=" + name +
                 ", isRoot=" + isRoot() +
                 ", parent=" + parentId +
+                ", childSize= "+ children.size() +
                 "}";
     }
 

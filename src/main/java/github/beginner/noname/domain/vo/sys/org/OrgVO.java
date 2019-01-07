@@ -2,7 +2,7 @@ package github.beginner.noname.domain.vo.sys.org;
 
 import lombok.Data;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * 组织机构VO对象
@@ -13,5 +13,5 @@ public class OrgVO {
     private Long id;
     private String name;
     private String code;
-    private List<OrgVO> children;
+    private Set<OrgVO> children;
 }

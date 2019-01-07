@@ -98,7 +98,7 @@ public class UserController extends BaseController {
     public String deleteUser(@PathVariable("id") Long id) {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.DEL_SUCC);
         boolean delFlag = userService.deleteUserById(id);
-        if (delFlag) {
+        if (!delFlag) {
             retMsg.setFailResponse(MsgConstant.DEL_FAIL);
         }
         return JSON.toJSONString(retMsg);

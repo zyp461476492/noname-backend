@@ -29,28 +29,19 @@ public class OrgServiceImpl extends BaseServiceImpl implements OrgService {
 
     @Override
     public OrgEntity addOrg(OrgEntity entity) {
+        entity.onCreate();
         return orgRepository.save(entity);
     }
 
     @Override
-    public boolean delOrg(OrgEntity node, Integer updateBy) {
-        if (node.getParent() == null) {
-            return false;
-        }
-        List<OrgEntity> childList = orgRepository.findChildByParent(node);
-        OrgEntity parent = node.getParent();
-        for (OrgEntity entity: childList) {
-            entity.setParent(parent);
-            // 随后更新数据
-            entity.onUpdate(updateBy);
-        }
-        orgRepository.saveAll(childList);
-        return true;
+    public OrgEntity updateOrg(OrgEntity entity, Integer updateBy) {
+        entity.onUpdate(updateBy);
+        return orgRepository.save(entity);
     }
 
     @Override
-    public List<OrgEntity> findChild(OrgEntity parent) {
-        return orgRepository.findChildByParent(parent);
+    public void delOrg(long id) {
+        orgRepository.deleteById(id);
     }
 
     @Override

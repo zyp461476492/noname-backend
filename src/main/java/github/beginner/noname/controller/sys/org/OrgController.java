@@ -49,37 +49,53 @@ public class OrgController extends BaseController {
     }
 
     @GetMapping(value = "/tree/root")
-    @ApiOperation(value = "树根节点查询")
+    @ApiOperation(value = "查询整棵树")
     public String queryRoot() {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
         List<OrgEntity> rootOrg = orgService.findRoot();
         List<OrgVO> voList = list2VO(rootOrg);
-        for (int i = 0; i < rootOrg.size(); i++) {
-            OrgEntity parent = rootOrg.get(i);
-            List<OrgEntity> childList = orgService.findChild(parent);
-            List<OrgVO> childVO = list2VO(childList);
-            voList.get(i).setChildren(childVO);
-        }
         retMsg.setData(voList);
         return JSON.toJSONString(retMsg);
     }
 
-    @PostMapping(value = "/tree/child")
-    @ApiOperation(value = "孩子节点查询")
-    public String queryChildByParent(@RequestBody OrgEntity parent) {
-        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
-        List<OrgEntity> orgList = orgService.findChild(parent);
-        List<OrgVO> voList = modelMapper.map(orgList, new TypeToken<List<OrgVO>>() {
-        }.getType());
-        retMsg.setData(voList);
-        return JSON.toJSONString(retMsg, SerializerFeature.DisableCircularReferenceDetect);
+    @GetMapping(value = "/tree/del/{id}")
+    @ApiOperation(value = "删除树节点")
+    @ApiImplicitParam(name = "id", value = "组织机构ID", required = true, dataType = "Long", example = "1")
+    public String delOrgById(@PathVariable("id") Long id) {
+        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.DEL_SUCC);
+        orgService.delOrg(id);
+        return JSON.toJSONString(retMsg);
     }
+
+    @GetMapping(value = "/tree/query/{id}")
+    @ApiOperation(value = "组织机构信息查询", notes = "根据传入ID查询组织机构信息")
+    @ApiImplicitParam(name = "id", value = "组织机构ID", required = true, dataType = "Long", example = "1")
+    public String queryOrgById(@PathVariable("id") Long id) {
+        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
+        Optional<OrgEntity> optionalOrgEntity = orgService.findById(id);
+        if (optionalOrgEntity.isPresent()) {
+            retMsg.setData(optionalOrgEntity.get());
+        } else {
+            retMsg.setFailResponse(MsgConstant.QUERY_FAIL);
+        }
+        return JSON.toJSONString(retMsg);
+    }
+
 
     @PostMapping(value = "/tree/add")
     @ApiOperation(value = "添加新节点")
     public String addOrgNode(@RequestBody OrgEntity entity) {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.ADD_SUCC);
         OrgEntity orgEntity = orgService.addOrg(entity);
+        retMsg.setData(orgEntity);
+        return JSON.toJSONString(retMsg);
+    }
+
+    @PostMapping(value = "/tree/update")
+    @ApiOperation(value = "更新组织机构节点")
+    public String updateOrgNode(@RequestBody UpdateDTO<OrgEntity> updateData) {
+        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.ADD_SUCC);
+        OrgEntity orgEntity = orgService.updateOrg(updateData.getData(), updateData.getUpdateBy());
         retMsg.setData(orgEntity);
         return JSON.toJSONString(retMsg);
     }
