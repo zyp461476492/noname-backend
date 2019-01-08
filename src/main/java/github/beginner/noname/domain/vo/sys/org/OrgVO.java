@@ -13,5 +13,6 @@ public class OrgVO {
     private Long id;
     private String name;
     private String code;
+    private Long createDate;
     private Set<OrgVO> children;
 }

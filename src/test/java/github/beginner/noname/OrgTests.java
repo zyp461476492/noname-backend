@@ -34,25 +34,25 @@ public class OrgTests {
 
     @Test
     public void OrgBasicTest() {
-//        OrgEntity root = buildNode("root", "0");
-//        OrgEntity child1 = buildNode("child1", "1");
-//        OrgEntity child2 = buildNode("child2", "2");
-//        OrgEntity child3 = buildNode("child3", "3");
-//        child1.setParent(root);
-//        child2.setParent(root);
-//        child3.setParent(root);
-//        orgRepository.save(root);
-//        orgRepository.save(child1);
-//        orgRepository.save(child3);
-//        orgRepository.save(child2);
-
-        OrgEntity root = buildNode("root1", "00");
+        OrgEntity root = buildNode("root", "0");
+        OrgEntity child1 = buildNode("child1", "1");
+        OrgEntity child2 = buildNode("child2", "2");
+        OrgEntity child3 = buildNode("child3", "3");
+        child1.setParent(root);
+        child2.setParent(root);
+        child3.setParent(root);
         orgRepository.save(root);
+        orgRepository.save(child1);
+        orgRepository.save(child3);
+        orgRepository.save(child2);
+
+        OrgEntity root1 = buildNode("root1", "00");
+        orgRepository.save(root1);
     }
 
     @Test
     public void OrgQuery() {
-        Optional<OrgEntity> o = orgRepository.findById(1L);
+        Optional<OrgEntity> o = orgRepository.findById(3L);
         o.ifPresent(orgEntity -> log.info(orgEntity.toString()));
     }
 

@@ -35,6 +35,9 @@ public class OrgServiceImpl extends BaseServiceImpl implements OrgService {
 
     @Override
     public OrgEntity updateOrg(OrgEntity entity, Integer updateBy) {
+        if (entity.getParent() == null || entity.getParent().getId() == null) {
+            entity.setParent(null);
+        }
         entity.onUpdate(updateBy);
         return orgRepository.save(entity);
     }

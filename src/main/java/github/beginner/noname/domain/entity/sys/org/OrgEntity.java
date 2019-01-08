@@ -22,7 +22,7 @@ import java.util.Set;
 @Entity
 @Table(name = "sys_organization")
 public class OrgEntity extends BaseEntity {
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "parent_id")
     private OrgEntity parent;
 
