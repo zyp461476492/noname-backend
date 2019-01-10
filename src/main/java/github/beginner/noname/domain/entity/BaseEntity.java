@@ -25,10 +25,14 @@ public class BaseEntity {
     @Column(name = "update_by")
     private Integer updateBy;
 
+    @Column(name = "create_by")
+    private Integer createBy;
+
     public void onCreate() {
         this.createDate = System.currentTimeMillis();
         this.updateDate = System.currentTimeMillis();
         this.updateBy = 1;
+        this.createBy = 1;
     }
 
     public void onUpdate(Integer updateBy) {
