@@ -1,6 +1,7 @@
 package github.beginner.noname.controller.sys.user;
 
 import com.alibaba.fastjson.JSON;
+import github.beginner.noname.common.PageConvert;
 import github.beginner.noname.controller.BaseController;
 import github.beginner.noname.domain.constant.MsgConstant;
 import github.beginner.noname.domain.dto.common.ResponseMsg;
@@ -43,19 +44,19 @@ import java.util.Optional;
 public class RoleController extends BaseController {
 
     private final RoleService roleService;
-    private final ModelMapper modelMapper;
+    private final PageConvert<RoleEntity, RoleDTO> pageConvert;
 
     @Autowired
     public RoleController(RoleService roleService, ModelMapper modelMapper) {
         this.roleService = roleService;
-        this.modelMapper = modelMapper;
+        pageConvert = new PageConvert<>(modelMapper, RoleDTO.class);
     }
 
     @PostMapping(value = "/add/")
     @ApiOperation("新增角色")
     public String addUser(@RequestBody RoleEntity role) {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.ADD_SUCC);
-        RoleDTO roleDTO = convertToRoleDTO(roleService.addRole(role));
+        RoleDTO roleDTO = pageConvert.convertDTO(roleService.addRole(role));
         retMsg.setData(roleDTO);
         return JSON.toJSONString(retMsg);
     }
@@ -83,7 +84,7 @@ public class RoleController extends BaseController {
     @ApiOperation(value = "更新角色", notes = "传入更新信息和更新人ID")
     public String updateRole(@RequestBody UpdateDTO<RoleEntity> updateData) {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.UPDATE_SUCC);
-        RoleDTO roleDTO = convertToRoleDTO(roleService.updateRole(updateData.getData(), updateData.getUpdateBy()));
+        RoleDTO roleDTO = pageConvert.convertDTO(roleService.updateRole(updateData.getData(), updateData.getUpdateBy()));
         retMsg.setData(roleDTO);
         return JSON.toJSONString(retMsg);
     }
@@ -111,20 +112,8 @@ public class RoleController extends BaseController {
     public String listRole(@RequestParam(value = "offset", defaultValue = "20") Integer offset,
                            @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
-        Page<RoleEntity> roleEntityPage = roleService.findAll(PageRequest.of(offset, limit));
-        Page<RoleDTO> roleDTOPage = roleEntityPage.map(this::convertToRoleDTO);
-        retMsg.setData(roleDTOPage);
+        retMsg.setData(pageConvert.convert(roleService.findAll(PageRequest.of(offset, limit))));
         return JSON.toJSONString(retMsg);
 
-    }
-
-    /**
-     * 将 roleEntity 转化为 RoleDTO
-     *
-     * @param role Entity
-     * @return DTO
-     */
-    private RoleDTO convertToRoleDTO(final RoleEntity role) {
-        return modelMapper.map(role, RoleDTO.class);
     }
 }
