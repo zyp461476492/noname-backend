@@ -27,6 +27,10 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    @Override
+    public List<UserEntity> findUserByOrg(Long orgId) {
+        return userRepository.findByOrgId(orgId);
+    }
 
     @Override
     public Page<UserEntity> findAll(Pageable pageable) {
@@ -76,6 +80,4 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
     public boolean checkUserName(String name) {
         return userRepository.existsByName(name);
     }
-
-
 }

@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "sys_user")
 public class UserEntity extends BaseEntity {
-    @JSONField(serialize = false)
+
     @OneToOne
     @JoinColumn(name = "org_id", referencedColumnName = "id")
     private OrgEntity org;

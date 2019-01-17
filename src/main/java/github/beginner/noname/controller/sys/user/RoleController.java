@@ -13,6 +13,7 @@ import github.beginner.noname.service.RoleService;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,7 +50,7 @@ public class RoleController extends BaseController {
     @Autowired
     public RoleController(RoleService roleService, ModelMapper modelMapper) {
         this.roleService = roleService;
-        pageConvert = new PageConvert<>(modelMapper, RoleDTO.class);
+        pageConvert = new PageConvert<>(modelMapper, RoleDTO.class, new TypeToken<List<RoleDTO>>(){}.getType());
     }
 
     @PostMapping(value = "/add/")

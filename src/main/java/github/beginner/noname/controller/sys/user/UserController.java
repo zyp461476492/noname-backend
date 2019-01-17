@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,16 +36,19 @@ import java.util.Optional;
 @RequestMapping("/sys/user")
 @Api(value = "用户模块API")
 public class UserController extends BaseController {
+    private final ModelMapper modelMapper;
+
     private final UserService userService;
 
     private final PageConvert<UserEntity, UserDTO> pageConvert;
 
     @Autowired
     public UserController(UserService userService, ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
         this.userService = userService;
-        pageConvert = new PageConvert<>(modelMapper, UserDTO.class);
+        pageConvert = new PageConvert<>(modelMapper, UserDTO.class,
+                new TypeToken<List<UserDTO>>(){}.getType());
     }
-
 
     @GetMapping(value = "/list/")
     @ApiOperation(value = "用户信息分页查询")
@@ -57,6 +61,15 @@ public class UserController extends BaseController {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
         retMsg.setData(pageConvert.convert(userService.findAll(PageRequest.of(offset, limit))));
         return JSON.toJSONString(retMsg, SerializerFeature.DisableCircularReferenceDetect);
+    }
+
+    @GetMapping(value = "/org/{id}")
+    @ApiOperation(value = "用户信息分页查询")
+    @ApiImplicitParam(name = "id", value = "组织机构ID", required = true, dataType = "Long", example = "0")
+    public String queryUserByOrg(@PathVariable("id") Long orgId) {
+        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
+        retMsg.setData(pageConvert.convertDTOList(userService.findUserByOrg(orgId)));
+        return JSON.toJSONString(retMsg);
     }
 
     @GetMapping(value = "/query/{id}")
@@ -111,9 +124,5 @@ public class UserController extends BaseController {
         userService.deleteBatchUser(userList);
         return JSON.toJSONString(retMsg);
     }
-
-
-
-
 
 }
