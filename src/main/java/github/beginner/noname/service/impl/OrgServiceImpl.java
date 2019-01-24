@@ -1,8 +1,8 @@
 package github.beginner.noname.service.impl;
 
-import github.beginner.noname.domain.constant.CommonConstant;
 import github.beginner.noname.domain.entity.sys.org.OrgEntity;
 import github.beginner.noname.repository.sys.OrgRepository;
+import github.beginner.noname.repository.sys.UserRepository;
 import github.beginner.noname.service.OrgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +17,12 @@ import java.util.Optional;
 public class OrgServiceImpl extends BaseServiceImpl implements OrgService {
     private final OrgRepository orgRepository;
 
+    private final UserRepository userRepository;
+
     @Autowired
-    public OrgServiceImpl(OrgRepository orgRepository) {
+    public OrgServiceImpl(OrgRepository orgRepository, UserRepository userRepository) {
         this.orgRepository = orgRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -44,6 +47,8 @@ public class OrgServiceImpl extends BaseServiceImpl implements OrgService {
 
     @Override
     public void delOrg(long id) {
+        // 删除前将所有 属于该部门的人员的组织机构设置为空
+        userRepository.updateOrg(id);
         orgRepository.deleteById(id);
     }
 

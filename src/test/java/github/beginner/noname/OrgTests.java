@@ -1,5 +1,7 @@
 package github.beginner.noname;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import github.beginner.noname.domain.entity.sys.org.OrgEntity;
 import github.beginner.noname.repository.sys.OrgRepository;
 import github.beginner.noname.service.OrgService;
@@ -52,8 +54,9 @@ public class OrgTests {
 
     @Test
     public void OrgQuery() {
-        Optional<OrgEntity> o = orgRepository.findById(3L);
-        o.ifPresent(orgEntity -> log.info(orgEntity.toString()));
+//        Optional<OrgEntity> o = orgRepository.findById(7L);
+//        o.ifPresent(orgEntity -> log.info(orgEntity.toString()));
+        System.out.println(JSON.toJSONString(orgRepository.findByParentIsNull()));
     }
 
     @Test

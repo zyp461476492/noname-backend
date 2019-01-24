@@ -49,4 +49,9 @@ public class UserTests {
 
         userRepository.save(user);
     }
+
+    @Test
+    public void updateTest() {
+        userRepository.updateOrg(19L);
+    }
 }
