@@ -2,8 +2,10 @@ package github.beginner.noname;
 
 import com.alibaba.fastjson.JSON;
 import github.beginner.noname.domain.dto.sys.user.UserDTO;
+import github.beginner.noname.domain.entity.sys.menu.IconEntity;
 import github.beginner.noname.domain.entity.sys.org.OrgEntity;
 import github.beginner.noname.domain.entity.sys.user.UserEntity;
+import github.beginner.noname.repository.sys.IconRepo;
 import github.beginner.noname.repository.sys.UserRepository;
 import github.beginner.noname.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,9 @@ public class UserTests {
     private UserService userService;
 
     @Autowired
+    private IconRepo iconRepo;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Test
@@ -49,4 +54,10 @@ public class UserTests {
 
         userRepository.save(user);
     }
+
+    @Test
+    public void updateTest() {
+        userRepository.updateOrg(19L);
+    }
+
 }

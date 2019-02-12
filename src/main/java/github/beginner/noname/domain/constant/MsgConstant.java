@@ -7,7 +7,6 @@ package github.beginner.noname.domain.constant;
  */
 public class MsgConstant {
     // 通用语句
-
     public static final String ADD_SUCC = "添加成功";
 
     public static final String ADD_FAIL = "添加失败";

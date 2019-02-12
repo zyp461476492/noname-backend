@@ -26,7 +26,7 @@ public class OrgEntity extends BaseEntity {
     @JoinColumn(name = "parent_id")
     private OrgEntity parent;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "parent")
+    @OneToMany(cascade = CascadeType.REMOVE, fetch=FetchType.EAGER, mappedBy = "parent")
     private Set<OrgEntity> children = new HashSet<>();
 
     @Column(name = "name", length = 128)
