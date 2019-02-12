@@ -37,4 +37,5 @@ public class ResponseMsg {
         this.code = CodeConstant.FAIL_CODE;
         this.msg = msg;
     }
+
 }

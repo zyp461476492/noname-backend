@@ -13,3 +13,4 @@ spring:
   devtools:
     restart:
       include.modelmapper: /modelmapper-(.*).jar
+
