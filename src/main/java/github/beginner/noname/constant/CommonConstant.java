@@ -1,4 +1,4 @@
-package github.beginner.noname.domain.constant;
+package github.beginner.noname.constant;
 
 /**
  * @author wpt
@@ -17,6 +17,11 @@ package github.beginner.noname.domain.constant;
  */
 
 public class CommonConstant {
+    /**
+     * request中jws对应的key
+     */
+    public static final String USER_TOKEN = "user-token";
+
     public static final String INITIALIZED_PASSWORD = "nonameuser";
 
     public static final Long TREE_ROOT = 0L;

@@ -1,4 +1,4 @@
-package github.beginner.noname.domain.constant;
+package github.beginner.noname.constant;
 
 /**
  * 常用语句 常用类

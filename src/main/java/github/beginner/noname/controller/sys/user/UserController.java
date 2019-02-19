@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import github.beginner.noname.common.PageConvert;
 import github.beginner.noname.controller.BaseController;
-import github.beginner.noname.domain.constant.CommonConstant;
-import github.beginner.noname.domain.constant.MsgConstant;
+import github.beginner.noname.constant.CommonConstant;
+import github.beginner.noname.constant.MsgConstant;
 import github.beginner.noname.domain.dto.common.ResponseMsg;
 import github.beginner.noname.domain.dto.common.UpdateDTO;
 import github.beginner.noname.domain.dto.sys.user.UserDTO;
@@ -20,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
