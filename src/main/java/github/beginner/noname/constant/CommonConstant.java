@@ -20,7 +20,7 @@ public class CommonConstant {
     /**
      * request中jws对应的key
      */
-    public static final String USER_TOKEN = "user-token";
+    public static final String USER_TOKEN = "user_token";
 
     public static final String INITIALIZED_PASSWORD = "nonameuser";
 
