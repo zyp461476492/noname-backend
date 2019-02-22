@@ -1,6 +1,6 @@
 package github.beginner.noname.domain.dto.common;
 
-import github.beginner.noname.domain.constant.CodeConstant;
+import github.beginner.noname.constant.CodeConstant;
 import lombok.Data;
 
 /**

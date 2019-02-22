@@ -2,7 +2,7 @@ package github.beginner.noname.service.impl;
 
 import github.beginner.noname.common.enums.ExceptionEnum;
 import github.beginner.noname.common.exception.NonameException;
-import github.beginner.noname.domain.constant.MsgConstant;
+import github.beginner.noname.constant.MsgConstant;
 import github.beginner.noname.domain.dto.common.ResponseMsg;
 import github.beginner.noname.domain.entity.sys.user.RoleEntity;
 import github.beginner.noname.repository.sys.RoleRepository;

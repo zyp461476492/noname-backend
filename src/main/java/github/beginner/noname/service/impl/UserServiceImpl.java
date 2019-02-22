@@ -1,7 +1,5 @@
 package github.beginner.noname.service.impl;
 
-import github.beginner.noname.domain.constant.MsgConstant;
-import github.beginner.noname.domain.dto.common.ResponseMsg;
 import github.beginner.noname.domain.entity.sys.user.UserEntity;
 import github.beginner.noname.repository.sys.UserRepository;
 import github.beginner.noname.service.UserService;
