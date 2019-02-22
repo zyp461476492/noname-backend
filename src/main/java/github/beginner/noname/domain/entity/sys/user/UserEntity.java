@@ -1,13 +1,15 @@
 package github.beginner.noname.domain.entity.sys.user;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import github.beginner.noname.domain.entity.BaseEntity;
+import github.beginner.noname.domain.entity.sys.org.OrgEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author zyp on 2018-12-5.
@@ -18,6 +20,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "sys_user")
 public class UserEntity extends BaseEntity {
+
+    @OneToOne
+    @JoinColumn(name = "org_id", referencedColumnName = "id")
+    private OrgEntity org;
+
     @Column(name = "login_id", length = 16)
     private String loginId;
 
@@ -47,9 +54,6 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "user_order")
     private Integer order;
-
-    @Column(name = "org_id")
-    private Integer orgId;
 
     @Column(name = "status")
     private Integer status;

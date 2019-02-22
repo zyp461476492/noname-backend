@@ -10,6 +10,5 @@ spring:
       ddl-auto: update
     show-sql: true
     open-in-view: false
-  devtools:
-    restart:
-      include.modelmapper: /modelmapper-(.*).jar
+
+

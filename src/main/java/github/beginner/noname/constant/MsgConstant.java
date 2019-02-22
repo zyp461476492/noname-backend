@@ -1,4 +1,4 @@
-package github.beginner.noname.domain.constant;
+package github.beginner.noname.constant;
 
 /**
  * 常用语句 常用类
@@ -7,7 +7,6 @@ package github.beginner.noname.domain.constant;
  */
 public class MsgConstant {
     // 通用语句
-
     public static final String ADD_SUCC = "添加成功";
 
     public static final String ADD_FAIL = "添加失败";
@@ -29,4 +28,7 @@ public class MsgConstant {
     public static final String USER_NOT_EXIST = "用户不存在";
 
     public static final String USER_NAME_REPEAT = "用户重名";
+
+    // 组织机构相关数据
+    public static final String ROOT_NOT_EXIST = "无根节点";
 }

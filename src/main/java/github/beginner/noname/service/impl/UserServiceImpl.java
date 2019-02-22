@@ -1,7 +1,5 @@
 package github.beginner.noname.service.impl;
 
-import github.beginner.noname.domain.constant.MsgConstant;
-import github.beginner.noname.domain.dto.common.ResponseMsg;
 import github.beginner.noname.domain.entity.sys.user.UserEntity;
 import github.beginner.noname.repository.sys.UserRepository;
 import github.beginner.noname.service.UserService;
@@ -27,13 +25,14 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    @Override
+    public List<UserEntity> findUserByOrg(Long orgId) {
+        return userRepository.findByOrgId(orgId);
+    }
 
     @Override
     public Page<UserEntity> findAll(Pageable pageable) {
-        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
-        Page<UserEntity> page = userRepository.findAll(pageable);
-        retMsg.setData(page);
-        return page;
+        return userRepository.findAll(pageable);
     }
 
     @Override
@@ -79,6 +78,4 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
     public boolean checkUserName(String name) {
         return userRepository.existsByName(name);
     }
-
-
 }

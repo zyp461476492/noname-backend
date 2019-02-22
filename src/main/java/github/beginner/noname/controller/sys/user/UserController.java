@@ -1,9 +1,11 @@
 package github.beginner.noname.controller.sys.user;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import github.beginner.noname.common.PageConvert;
 import github.beginner.noname.controller.BaseController;
-import github.beginner.noname.domain.constant.CommonConstant;
-import github.beginner.noname.domain.constant.MsgConstant;
+import github.beginner.noname.constant.CommonConstant;
+import github.beginner.noname.constant.MsgConstant;
 import github.beginner.noname.domain.dto.common.ResponseMsg;
 import github.beginner.noname.domain.dto.common.UpdateDTO;
 import github.beginner.noname.domain.dto.sys.user.UserDTO;
@@ -16,8 +18,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,16 +35,19 @@ import java.util.Optional;
 @RequestMapping("/sys/user")
 @Api(value = "用户模块API")
 public class UserController extends BaseController {
+    private final ModelMapper modelMapper;
+
     private final UserService userService;
 
-    private final ModelMapper modelMapper;
+    private final PageConvert<UserEntity, UserDTO> pageConvert;
 
     @Autowired
     public UserController(UserService userService, ModelMapper modelMapper) {
-        this.userService = userService;
         this.modelMapper = modelMapper;
+        this.userService = userService;
+        pageConvert = new PageConvert<>(modelMapper, UserDTO.class,
+                new TypeToken<List<UserDTO>>(){}.getType());
     }
-
 
     @GetMapping(value = "/list/")
     @ApiOperation(value = "用户信息分页查询")
@@ -53,9 +58,16 @@ public class UserController extends BaseController {
     public String queryUserList(@RequestParam(value = "offset", defaultValue = "0") Integer offset,
                                 @RequestParam(value = "limit", defaultValue = "20") Integer limit) {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
-        Page<UserEntity> queryPage = userService.findAll(PageRequest.of(offset, limit));
-        Page<UserDTO> retPage = queryPage.map(this::convertToUserDTO);
-        retMsg.setData(retPage);
+        retMsg.setData(pageConvert.convert(userService.findAll(PageRequest.of(offset, limit))));
+        return JSON.toJSONString(retMsg, SerializerFeature.DisableCircularReferenceDetect);
+    }
+
+    @GetMapping(value = "/org/{id}")
+    @ApiOperation(value = "用户信息分页查询")
+    @ApiImplicitParam(name = "id", value = "组织机构ID", required = true, dataType = "Long", example = "0")
+    public String queryUserByOrg(@PathVariable("id") Long orgId) {
+        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
+        retMsg.setData(pageConvert.convertDTOList(userService.findUserByOrg(orgId)));
         return JSON.toJSONString(retMsg);
     }
 
@@ -66,7 +78,7 @@ public class UserController extends BaseController {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
         Optional<UserEntity> optionalUserEntity = userService.queryUserById(id);
         if (optionalUserEntity.isPresent()) {
-            retMsg.setData(optionalUserEntity.get());
+            retMsg.setData(pageConvert.convertDTO(optionalUserEntity.get()));
         } else {
             retMsg.setFailResponse(MsgConstant.QUERY_FAIL);
         }
@@ -77,8 +89,8 @@ public class UserController extends BaseController {
     @ApiOperation(value = "新增用户")
     public String addUser(@RequestBody UserEntity user) throws NoSuchAlgorithmException {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.ADD_SUCC);
-        user.setPassword(EncryptUtils.generatePassword(user.getName(), CommonConstant.INITIALIZED_PASSWORD));
-        UserDTO userDTO = convertToUserDTO(userService.addUser(user));
+        user.setPassword(EncryptUtils.generatePassword(user.getLoginId(), CommonConstant.INITIALIZED_PASSWORD));
+        UserDTO userDTO = pageConvert.convertDTO(userService.addUser(user));
         retMsg.setData(userDTO);
         return JSON.toJSONString(retMsg);
     }
@@ -87,7 +99,7 @@ public class UserController extends BaseController {
     @ApiOperation(value = "更新用户信息", notes = "传递更新信息和更新人数据")
     public String updateUser(@RequestBody UpdateDTO<UserEntity> updateData) {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.UPDATE_SUCC);
-        UserDTO userDTO = convertToUserDTO(userService.updateUser(updateData.getData(), updateData.getUpdateBy()));
+        UserDTO userDTO = pageConvert.convertDTO(userService.updateUser(updateData.getData(), updateData.getUpdateBy()));
         retMsg.setData(userDTO);
         return JSON.toJSONString(retMsg);
     }
@@ -98,7 +110,7 @@ public class UserController extends BaseController {
     public String deleteUser(@PathVariable("id") Long id) {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.DEL_SUCC);
         boolean delFlag = userService.deleteUserById(id);
-        if (delFlag) {
+        if (!delFlag) {
             retMsg.setFailResponse(MsgConstant.DEL_FAIL);
         }
         return JSON.toJSONString(retMsg);
@@ -111,16 +123,5 @@ public class UserController extends BaseController {
         userService.deleteBatchUser(userList);
         return JSON.toJSONString(retMsg);
     }
-
-    /**
-     * 将 userEntity 转换为 userDTO
-     * @param user 待转化的entity
-     * @return dto
-     */
-    private UserDTO convertToUserDTO(final UserEntity user) {
-        return modelMapper.map(user, UserDTO.class);
-    }
-
-
 
 }

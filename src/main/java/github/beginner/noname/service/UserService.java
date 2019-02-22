@@ -12,6 +12,12 @@ import java.util.Optional;
  */
 public interface UserService {
     /**
+     * 根据组织机构查找对应的用户信息
+     * @param orgId 组织机构ID
+     * @return org 下的人员信息
+     */
+    List<UserEntity> findUserByOrg(Long orgId);
+    /**
      * 查找所有用户
      *
      * @param pageable 分页组件

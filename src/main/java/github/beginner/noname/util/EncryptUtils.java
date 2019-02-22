@@ -30,14 +30,16 @@ public class EncryptUtils {
 
     public static byte[] encodeMD5ToByte(String data) throws NoSuchAlgorithmException {
         MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-        byte[] encryptData = messageDigest.digest(data.getBytes());
-        return encryptData;
+        return messageDigest.digest(data.getBytes());
     }
 
     public static String encodeMD5ToString(String data) throws NoSuchAlgorithmException {
         MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-        String encryptData = StringUtils.byte2Hex(messageDigest.digest(data.getBytes()), true);
-        return encryptData;
+        return StringUtils.byte2Hex(messageDigest.digest(data.getBytes()), true);
+    }
+
+    public static void main(String[] args) throws NoSuchAlgorithmException {
+        System.out.println(generatePassword("vvv", "nonameuser"));
     }
 
 }

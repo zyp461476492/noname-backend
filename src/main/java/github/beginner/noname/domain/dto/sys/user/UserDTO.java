@@ -1,6 +1,9 @@
 package github.beginner.noname.domain.dto.sys.user;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import github.beginner.noname.domain.dto.BaseDTO;
+import github.beginner.noname.domain.dto.sys.OrgDTO;
+import github.beginner.noname.domain.entity.sys.org.OrgEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,7 +33,7 @@ public class UserDTO extends BaseDTO {
 
     private Integer order;
 
-    private Integer orgId;
+    private OrgDTO org;
 
     private Integer status;
 
