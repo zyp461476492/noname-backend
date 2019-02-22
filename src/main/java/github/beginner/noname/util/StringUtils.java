@@ -21,19 +21,19 @@ package github.beginner.noname.util;
 public class StringUtils {
 
     public static String byte2Hex(byte[] buff, boolean upper) {
-        String hexStr = "";
+        StringBuilder hexStr = new StringBuilder();
         String tempStr = "";
-        for (int n = 0; n < buff.length; n++) {
-            tempStr = Integer.toHexString(buff[n] & 0xFF);
+        for (byte b : buff) {
+            tempStr = Integer.toHexString(b & 0xFF);
             if (tempStr.length() == 1) {
-                hexStr = new StringBuffer().append(hexStr).append("0").append(tempStr).toString();
+                hexStr.append("0").append(tempStr);
             } else {
-                hexStr = new StringBuffer().append(hexStr).append(tempStr).toString();
+                hexStr.append(tempStr);
             }
         }
         if (upper) {
-            return hexStr.toUpperCase();
+            return hexStr.toString().toUpperCase();
         }
-        return hexStr.toLowerCase();
+        return hexStr.toString().toLowerCase();
     }
 }

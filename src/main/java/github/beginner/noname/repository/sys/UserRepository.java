@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 用户类 Data Access Object
@@ -17,6 +18,13 @@ import java.util.List;
  */
 @Transactional
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    /**
+     * 根据loginID 获取用户信息
+     * @param loginId loginid
+     * @return userEntity
+     */
+    Optional<UserEntity> findByLoginId(String loginId);
+
     /**
      * 根据姓名判断是否存在用户
      *

@@ -38,4 +38,8 @@ public class EncryptUtils {
         return StringUtils.byte2Hex(messageDigest.digest(data.getBytes()), true);
     }
 
+    public static void main(String[] args) throws NoSuchAlgorithmException {
+        System.out.println(generatePassword("vvv", "nonameuser"));
+    }
+
 }

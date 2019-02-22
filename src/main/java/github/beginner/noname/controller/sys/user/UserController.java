@@ -89,7 +89,7 @@ public class UserController extends BaseController {
     @ApiOperation(value = "新增用户")
     public String addUser(@RequestBody UserEntity user) throws NoSuchAlgorithmException {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.ADD_SUCC);
-        user.setPassword(EncryptUtils.generatePassword(user.getName(), CommonConstant.INITIALIZED_PASSWORD));
+        user.setPassword(EncryptUtils.generatePassword(user.getLoginId(), CommonConstant.INITIALIZED_PASSWORD));
         UserDTO userDTO = pageConvert.convertDTO(userService.addUser(user));
         retMsg.setData(userDTO);
         return JSON.toJSONString(retMsg);

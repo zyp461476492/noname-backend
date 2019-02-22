@@ -14,6 +14,9 @@ import java.util.Date;
 public class JwtUtils {
     private static SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
+    /**
+     * jwt 有效时长 目前设置为1分钟
+     */
     private static long Expiration = 1000 * 60;
 
     /**
@@ -27,13 +30,22 @@ public class JwtUtils {
             Jws<Claims> claims =  Jwts.parser()
                     .setSigningKey(key)
                     .parseClaimsJws(jwsString);
-            log.info("userId: {}", claims.getHeader().get("userId"));
-            log.info("subject: {}", claims.getBody().getSubject());
             res = true;
         } catch (JwtException e) {
             log.info("jwt verify failed with jws: {}", jwsString);
         }
         return res;
+    }
+
+    /**
+     * 解析jwt
+     * @param jwsString 待解析的 jws
+     * @return 解析后的结果
+     */
+    public static Jws<Claims> parseJwt(String jwsString) {
+        return Jwts.parser()
+                .setSigningKey(key)
+                .parseClaimsJws(jwsString);
     }
 
     public static String buildJws(String loginName, Long id) {
