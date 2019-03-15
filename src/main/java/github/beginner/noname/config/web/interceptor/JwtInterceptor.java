@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 public class JwtInterceptor implements HandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // 如果不是映射到方法，直接通过，比如类级别的映射，按道理来说是错误地址
         if (!(handler instanceof HandlerMethod)) {
             return true;
@@ -40,6 +40,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
         boolean res = JwtUtils.verifyJwt(jws);
         if (res) {
+            // 追加jwt有效时间
             return true;
         } else {
             throw new JwtVerifyException("access-deny");

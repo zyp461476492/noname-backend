@@ -9,13 +9,14 @@ import github.beginner.noname.domain.dto.common.ResponseMsg;
 import github.beginner.noname.domain.entity.sys.user.UserEntity;
 import github.beginner.noname.domain.vo.sys.LoginVO;
 import github.beginner.noname.service.SysService;
-import github.beginner.noname.service.UserService;
 import github.beginner.noname.util.EncryptUtils;
 import github.beginner.noname.util.JwtUtils;
+import github.beginner.noname.util.SpringContextUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
 
 import javax.annotation.Resource;
 import java.security.NoSuchAlgorithmException;
@@ -37,6 +38,15 @@ public class LoginController extends BaseController {
     public String queryRole() {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
         retMsg.setData(JwtUtils.buildJws("lisi", 1L));
+        return JSON.toJSONString(retMsg);
+    }
+
+    @NotCheckJwt
+    @GetMapping(value = "/refresh/")
+    @ApiOperation(value = "刷新系统缓存", notes = "供测试用")
+    public String refresh() {
+        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
+        SpringContextUtil.getApplicationContext().refresh();
         return JSON.toJSONString(retMsg);
     }
 

@@ -39,4 +39,12 @@ public final class RandomUtils {
     public String uuidShort() {
         return UUID.randomUUID().toString().replace("-", "");
     }
+
+    public static void main(String[] args) {
+        RandomUtils randomUtils = new RandomUtils();
+        for (int i = 0; i < 10; i++) {
+            System.out.println(randomUtils.uuidShort());
+        }
+
+    }
 }

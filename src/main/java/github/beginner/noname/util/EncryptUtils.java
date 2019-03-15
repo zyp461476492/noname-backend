@@ -1,7 +1,5 @@
 package github.beginner.noname.util;
 
-import sun.security.provider.MD5;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 

@@ -1,9 +1,12 @@
 package github.beginner.noname.util;
 
+import github.beginner.noname.config.ConfigProperty;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.crypto.SecretKey;
 import java.util.Date;
 
@@ -11,13 +14,17 @@ import java.util.Date;
  * @author zyp on 2019/2/18
  */
 @Slf4j
+@Component
 public class JwtUtils {
+
+    private static ConfigProperty configProperty;
+
     private static SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    /**
-     * jwt 有效时长 目前设置为1分钟
-     */
-    private static long Expiration = 1000 * 60;
+    @Resource
+    public void setConfigProperty(ConfigProperty configProperty) {
+        JwtUtils.configProperty = configProperty;
+    }
 
     /**
      * 验证jwt
@@ -30,6 +37,8 @@ public class JwtUtils {
             Jws<Claims> claims =  Jwts.parser()
                     .setSigningKey(key)
                     .parseClaimsJws(jwsString);
+            // 追加过期时间
+            claims.getBody().setExpiration(new Date(System.currentTimeMillis() + configProperty.jwtExpiration));
             res = true;
         } catch (JwtException e) {
             log.info("jwt verify failed with jws: {}", jwsString);
@@ -52,7 +61,7 @@ public class JwtUtils {
         return Jwts.builder()
                 .setHeaderParam("userId", id)
                 .setSubject(loginName)
-                .setExpiration(new Date(System.currentTimeMillis() + Expiration))
+                .setExpiration(new Date(System.currentTimeMillis() + configProperty.jwtExpiration))
                 .signWith(key)
                 .compact();
     }
