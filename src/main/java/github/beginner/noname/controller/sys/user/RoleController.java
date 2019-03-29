@@ -50,7 +50,7 @@ public class RoleController extends BaseController {
         pageConvert = new PageConvert<>(modelMapper, RoleDTO.class, new TypeToken<List<RoleDTO>>(){}.getType());
     }
 
-    @PostMapping(value = "/add/")
+    @PostMapping(value = "/add")
     @ApiOperation("新增角色")
     public String addUser(@RequestBody RoleEntity role) {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.ADD_SUCC);
@@ -70,7 +70,7 @@ public class RoleController extends BaseController {
         return JSON.toJSONString(retMsg);
     }
 
-    @DeleteMapping(value = "/del/batch/")
+    @DeleteMapping(value = "/del/batch")
     @ApiOperation(value = "批量删除角色", notes = "批量删除用户传入信息")
     public String deleteBatchRole(@RequestBody List<RoleEntity> roleEntityList) {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.DEL_SUCC);
@@ -78,7 +78,7 @@ public class RoleController extends BaseController {
         return JSON.toJSONString(retMsg);
     }
 
-    @PutMapping(value = "/update/")
+    @PutMapping(value = "/update")
     @ApiOperation(value = "更新角色", notes = "传入更新信息和更新人ID")
     public String updateRole(@RequestBody UpdateDTO<RoleEntity> updateData) {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.UPDATE_SUCC);
