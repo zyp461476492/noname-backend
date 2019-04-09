@@ -1,4 +1,4 @@
-package github.beginner.noname.service;
+package github.beginner.noname.service.sys;
 
 /**
  * @author zyp on 2018-12-6.

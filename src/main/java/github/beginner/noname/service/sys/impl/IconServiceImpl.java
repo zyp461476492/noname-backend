@@ -1,9 +1,9 @@
-package github.beginner.noname.service.impl;
+package github.beginner.noname.service.sys.impl;
 
 import github.beginner.noname.domain.entity.sys.menu.IconEntity;
 import github.beginner.noname.domain.vo.sys.menu.IconTypeVO;
 import github.beginner.noname.repository.sys.IconRepo;
-import github.beginner.noname.service.IconService;
+import github.beginner.noname.service.sys.IconService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

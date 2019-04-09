@@ -1,15 +1,18 @@
-package github.beginner.noname.controller.sys.user;
+package github.beginner.noname.controller.sys.role;
 
 import com.alibaba.fastjson.JSON;
 import github.beginner.noname.common.PageConvert;
-import github.beginner.noname.controller.BaseController;
 import github.beginner.noname.constant.MsgConstant;
+import github.beginner.noname.controller.BaseController;
 import github.beginner.noname.domain.dto.common.ResponseMsg;
 import github.beginner.noname.domain.dto.common.UpdateDTO;
 import github.beginner.noname.domain.dto.sys.user.RoleDTO;
-import github.beginner.noname.domain.entity.sys.user.RoleEntity;
-import github.beginner.noname.service.RoleService;
-import io.swagger.annotations.*;
+import github.beginner.noname.domain.entity.sys.role.RoleEntity;
+import github.beginner.noname.service.sys.RoleService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -64,7 +67,7 @@ public class RoleController extends BaseController {
     @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", example = "1")
     public String deleteRole(@PathVariable("id") Long id) {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.DEL_SUCC);
-        if (roleService.deleteRoleById(id)) {
+        if (!roleService.deleteRoleById(id)) {
             retMsg.setFailResponse(MsgConstant.DEL_FAIL);
         }
         return JSON.toJSONString(retMsg);

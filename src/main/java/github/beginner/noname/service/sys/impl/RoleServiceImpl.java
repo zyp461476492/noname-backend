@@ -1,12 +1,12 @@
-package github.beginner.noname.service.impl;
+package github.beginner.noname.service.sys.impl;
 
 import github.beginner.noname.common.enums.ExceptionEnum;
 import github.beginner.noname.common.exception.NonameException;
 import github.beginner.noname.constant.MsgConstant;
 import github.beginner.noname.domain.dto.common.ResponseMsg;
-import github.beginner.noname.domain.entity.sys.user.RoleEntity;
+import github.beginner.noname.domain.entity.sys.role.RoleEntity;
 import github.beginner.noname.repository.sys.RoleRepository;
-import github.beginner.noname.service.RoleService;
+import github.beginner.noname.service.sys.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,13 +52,14 @@ public class RoleServiceImpl extends BaseServiceImpl implements RoleService {
 
     @Override
     public boolean deleteRoleById(Long id) {
+        boolean res = true;
         if (roleRepository.existsById(id)) {
             roleRepository.deleteById(id);
         } else {
             log.error("ID 为{}的角色不存在", id);
-            throw new NonameException(ExceptionEnum.ROLE_NOT_EXIST);
+            res = false;
         }
-        return true;
+        return res;
     }
 
     @Override

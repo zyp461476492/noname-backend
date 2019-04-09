@@ -2,8 +2,6 @@ package github.beginner.noname.domain.entity.sys.org;
 
 import github.beginner.noname.domain.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +24,7 @@ public class OrgEntity extends BaseEntity {
     @JoinColumn(name = "parent_id")
     private OrgEntity parent;
 
-    @OneToMany(cascade = CascadeType.REMOVE, fetch=FetchType.EAGER, mappedBy = "parent")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "parent")
     private Set<OrgEntity> children = new HashSet<>();
 
     @Column(name = "name", length = 128)

@@ -5,7 +5,7 @@ import github.beginner.noname.constant.MsgConstant;
 import github.beginner.noname.domain.dto.common.ResponseMsg;
 import github.beginner.noname.domain.entity.sys.menu.IconEntity;
 import github.beginner.noname.domain.vo.sys.menu.IconTypeVO;
-import github.beginner.noname.service.IconService;
+import github.beginner.noname.service.sys.IconService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

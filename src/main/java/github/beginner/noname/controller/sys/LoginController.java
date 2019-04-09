@@ -8,7 +8,7 @@ import github.beginner.noname.controller.BaseController;
 import github.beginner.noname.domain.dto.common.ResponseMsg;
 import github.beginner.noname.domain.entity.sys.user.UserEntity;
 import github.beginner.noname.domain.vo.sys.LoginVO;
-import github.beginner.noname.service.SysService;
+import github.beginner.noname.service.sys.SysService;
 import github.beginner.noname.util.EncryptUtils;
 import github.beginner.noname.util.JwtUtils;
 import github.beginner.noname.util.SpringContextUtil;
@@ -16,7 +16,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
 
 import javax.annotation.Resource;
 import java.security.NoSuchAlgorithmException;

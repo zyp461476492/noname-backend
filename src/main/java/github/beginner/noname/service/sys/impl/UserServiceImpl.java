@@ -1,8 +1,10 @@
-package github.beginner.noname.service.impl;
+package github.beginner.noname.service.sys.impl;
 
+import github.beginner.noname.domain.entity.sys.org.OrgEntity;
 import github.beginner.noname.domain.entity.sys.user.UserEntity;
 import github.beginner.noname.repository.sys.UserRepository;
-import github.beginner.noname.service.UserService;
+import github.beginner.noname.service.sys.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,7 @@ import java.util.Optional;
  * @author zyp on 2018-12-6.
  */
 @Service
+@Slf4j
 public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -41,7 +44,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
             try {
                 userRepository.deleteById(id);
             } catch (Exception e) {
-                logger.error("删除用户发生异常", e);
+                log.error("删除用户发生异常", e);
                 return false;
             }
 
@@ -59,6 +62,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
     @Override
     public UserEntity addUser(UserEntity user) {
+        setNull(user, OrgEntity.class, "org", "setOrg", null);
         user.onCreate();
         return userRepository.save(user);
     }
@@ -70,6 +74,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
     @Override
     public UserEntity updateUser(UserEntity user, Integer updateBy) {
+        setNull(user, OrgEntity.class, "org", "setOrg", null);
         user.onUpdate(updateBy);
         return userRepository.save(user);
     }
@@ -77,5 +82,16 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
     @Override
     public boolean checkUserName(String name) {
         return userRepository.existsByName(name);
+    }
+
+    /**
+     * 如果user传递的组织机构为空，则设置组织机构为null，防止unsaved异常
+     *
+     * @param user 用户信息
+     */
+    private void setNull(UserEntity user) {
+        if (isEmpty(user.getOrg())) {
+            user.setOrg(null);
+        }
     }
 }

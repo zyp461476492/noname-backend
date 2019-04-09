@@ -14,7 +14,7 @@ public interface OrgRepository extends JpaRepository<OrgEntity, Long> {
      * @param parent parent节点
      * @return parent的孩子节点
      */
-    List<OrgEntity> findChildByParent(OrgEntity parent);
+    List<OrgEntity> findChildByParentId(OrgEntity parent);
 
     /**
      * 找到root节点

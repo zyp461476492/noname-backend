@@ -1,8 +1,8 @@
-package github.beginner.noname.service.impl;
+package github.beginner.noname.service.sys.impl;
 
 import github.beginner.noname.domain.entity.sys.menu.MenuEntity;
 import github.beginner.noname.repository.sys.MenuRepository;
-import github.beginner.noname.service.MenuService;
+import github.beginner.noname.service.sys.MenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +31,7 @@ public class MenuServiceImpl extends BaseServiceImpl implements MenuService  {
 
     @Override
     public MenuEntity addMenu(MenuEntity entity) {
+        setNull(entity, MenuEntity.class, "parent", "setParent", null);
         entity.onCreate();
         return repository.save(entity);
     }
@@ -49,6 +50,7 @@ public class MenuServiceImpl extends BaseServiceImpl implements MenuService  {
 
     @Override
     public MenuEntity updateMenu(MenuEntity entity) {
+        setNull(entity, MenuEntity.class, "parent", "setParent", null);
         entity.onUpdate(1);
         return repository.save(entity);
     }

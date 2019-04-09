@@ -1,8 +1,8 @@
-package github.beginner.noname.service.impl;
+package github.beginner.noname.service.sys.impl;
 
 import github.beginner.noname.domain.entity.sys.user.UserEntity;
 import github.beginner.noname.repository.sys.UserRepository;
-import github.beginner.noname.service.SysService;
+import github.beginner.noname.service.sys.SysService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

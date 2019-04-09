@@ -1,12 +1,14 @@
 package github.beginner.noname.domain.entity.sys.menu;
 
 import github.beginner.noname.domain.entity.BaseEntity;
+import github.beginner.noname.domain.entity.sys.role.RoleEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,7 +24,7 @@ public class MenuEntity extends BaseEntity {
     @JoinColumn(name = "parent_id")
     private MenuEntity parent;
 
-    @OneToMany(cascade = CascadeType.REMOVE, fetch=FetchType.EAGER, mappedBy = "parent")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "parent")
     private Set<MenuEntity> children = new HashSet<>();
 
     @Column(name = "name", length = 128)
@@ -36,6 +38,9 @@ public class MenuEntity extends BaseEntity {
 
     @Column(name = "menu_order")
     private Integer order;
+
+    @ManyToMany(mappedBy = "menuList")
+    private List<RoleEntity> roleList;
 
 
 }

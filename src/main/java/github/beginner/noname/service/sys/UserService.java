@@ -1,4 +1,4 @@
-package github.beginner.noname.service;
+package github.beginner.noname.service.sys;
 
 import github.beginner.noname.domain.entity.sys.user.UserEntity;
 import org.springframework.data.domain.Page;

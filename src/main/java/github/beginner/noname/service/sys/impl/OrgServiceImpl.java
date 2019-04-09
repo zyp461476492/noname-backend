@@ -1,9 +1,9 @@
-package github.beginner.noname.service.impl;
+package github.beginner.noname.service.sys.impl;
 
 import github.beginner.noname.domain.entity.sys.org.OrgEntity;
 import github.beginner.noname.repository.sys.OrgRepository;
 import github.beginner.noname.repository.sys.UserRepository;
-import github.beginner.noname.service.OrgService;
+import github.beginner.noname.service.sys.OrgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,15 +32,14 @@ public class OrgServiceImpl extends BaseServiceImpl implements OrgService {
 
     @Override
     public OrgEntity addOrg(OrgEntity entity) {
+        setNull(entity, OrgEntity.class, "parent", "setParent", null);
         entity.onCreate();
         return orgRepository.save(entity);
     }
 
     @Override
     public OrgEntity updateOrg(OrgEntity entity, Integer updateBy) {
-        if (entity.getParent() == null || entity.getParent().getId() == null) {
-            entity.setParent(null);
-        }
+        setNull(entity, OrgEntity.class, "parent", "setParent", null);
         entity.onUpdate(updateBy);
         return orgRepository.save(entity);
     }

@@ -2,13 +2,13 @@ package github.beginner.noname.controller.sys.menu;
 
 import com.alibaba.fastjson.JSON;
 import github.beginner.noname.common.PageConvert;
-import github.beginner.noname.controller.BaseController;
 import github.beginner.noname.constant.MsgConstant;
+import github.beginner.noname.controller.BaseController;
 import github.beginner.noname.domain.dto.common.ResponseMsg;
 import github.beginner.noname.domain.dto.common.UpdateDTO;
 import github.beginner.noname.domain.entity.sys.menu.MenuEntity;
 import github.beginner.noname.domain.vo.sys.menu.MenuVO;
-import github.beginner.noname.service.MenuService;
+import github.beginner.noname.service.sys.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

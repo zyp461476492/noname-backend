@@ -1,6 +1,6 @@
-package github.beginner.noname.service;
+package github.beginner.noname.service.sys;
 
-import github.beginner.noname.domain.entity.sys.user.RoleEntity;
+import github.beginner.noname.domain.entity.sys.role.RoleEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

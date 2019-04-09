@@ -1,6 +1,6 @@
 package github.beginner.noname.repository.sys;
 
-import github.beginner.noname.domain.entity.sys.user.RoleEntity;
+import github.beginner.noname.domain.entity.sys.role.RoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

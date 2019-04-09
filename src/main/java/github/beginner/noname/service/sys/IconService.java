@@ -1,9 +1,8 @@
-package github.beginner.noname.service;
+package github.beginner.noname.service.sys;
 
 import github.beginner.noname.domain.entity.sys.menu.IconEntity;
 import github.beginner.noname.domain.vo.sys.menu.IconTypeVO;
 
-import javax.persistence.Column;
 import java.util.List;
 
 /**

@@ -1,13 +1,13 @@
 package github.beginner.noname.controller.sys.org;
 
 import com.alibaba.fastjson.JSON;
-import github.beginner.noname.controller.BaseController;
 import github.beginner.noname.constant.MsgConstant;
+import github.beginner.noname.controller.BaseController;
 import github.beginner.noname.domain.dto.common.ResponseMsg;
 import github.beginner.noname.domain.dto.common.UpdateDTO;
 import github.beginner.noname.domain.entity.sys.org.OrgEntity;
 import github.beginner.noname.domain.vo.sys.org.OrgVO;
-import github.beginner.noname.service.OrgService;
+import github.beginner.noname.service.sys.OrgService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
