@@ -45,9 +45,8 @@ public class BaseServiceImpl implements BaseService {
             field.setAccessible(true);
             BaseEntity entity = (BaseEntity) field.get(obj);
             Method setter = clazz.getMethod(methodName, paramType);
-            log.info("Entity {}", entity);
             if (isEmpty(entity)) {
-                // 字段为null时，设置改对象为null
+                // 字段为null时，设置该对象为null
                 setter.invoke(obj, param);
             }
         } catch (Exception e) {
