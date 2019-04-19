@@ -1,8 +1,11 @@
 package github.beginner.noname.domain.dto.sys.user;
 
 import github.beginner.noname.domain.dto.BaseDTO;
+import github.beginner.noname.domain.vo.sys.menu.MenuVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.Set;
 
 /**
  * Role DTO
@@ -44,4 +47,6 @@ public class RoleDTO extends BaseDTO {
     private Integer orgId;
 
     private String orgName;
+
+    private Set<MenuVO> menuList;
 }

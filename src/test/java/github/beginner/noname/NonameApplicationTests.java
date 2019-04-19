@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -40,7 +40,7 @@ public class NonameApplicationTests {
 		menuEntity.setParent(null);
 		menuEntity.setName("测试菜单");
 
-		List<MenuEntity> list = new ArrayList<>();
+        Set<MenuEntity> list = new HashSet<>();
 		list.add(menuEntity);
 		roleEntity.setMenuList(list);
 

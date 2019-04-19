@@ -1,15 +1,14 @@
 package github.beginner.noname.domain.entity.sys.user;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import github.beginner.noname.domain.entity.BaseEntity;
 import github.beginner.noname.domain.entity.sys.org.OrgEntity;
+import github.beginner.noname.domain.entity.sys.role.RoleEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * @author zyp on 2018-12-5.
@@ -58,6 +57,9 @@ public class UserEntity extends BaseEntity {
     @Column(name = "status")
     private Integer status;
 
-
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<RoleEntity> roleList;
 
 }

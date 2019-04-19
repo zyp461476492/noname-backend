@@ -97,6 +97,11 @@ public class RoleServiceImpl extends BaseServiceImpl implements RoleService {
     }
 
     @Override
+    public List<RoleEntity> queryAllRole() {
+        return roleRepository.findAll();
+    }
+
+    @Override
     public boolean checkRoleName(String name) {
         return roleRepository.existsByRoleName(name);
     }

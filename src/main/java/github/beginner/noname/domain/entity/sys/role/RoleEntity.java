@@ -1,17 +1,17 @@
 package github.beginner.noname.domain.entity.sys.role;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import github.beginner.noname.domain.entity.BaseEntity;
 import github.beginner.noname.domain.entity.sys.menu.MenuEntity;
+import github.beginner.noname.domain.entity.sys.user.UserEntity;
 import io.swagger.annotations.ApiModel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 /**
- * @author wpt
- * @version 1.0
  * .
  * .                 .-~~~~~~~~~-._       _.-~~~~~~~~~-.
  * .             __.'              ~.   .~              `.__
@@ -22,13 +22,17 @@ import java.util.List;
  * .   .'//______.============-..   \ | /   ..-============.______\\`.
  * . .'______________________________\|/______________________________`.
  * .                    高山仰止,景行行止.虽不能至,心向往之
+ * @author wpt
+ * @updateBy zyp
+ * @version 1.0
  * @date 18/12/12 18:00
+ * @updateTime 2019/04/19
  */
 
-@Data
+@Getter
+@Setter
 @Entity
 @ApiModel(value = "Role")
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "sys_role")
 public class RoleEntity extends BaseEntity {
 
@@ -60,8 +64,12 @@ public class RoleEntity extends BaseEntity {
      * 关联到从表的外键名：主表中用于关联的属性名+下划线+从表的主键列名,即authority_id
      * 主表就是关系维护端对应的表，从表就是关系被维护端对应的表
      */
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "role_menu", joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "menu_id"))
-    private List<MenuEntity> menuList;
+    private Set<MenuEntity> menuList;
+
+    @ManyToMany(mappedBy = "roleList", fetch = FetchType.EAGER)
+    @JSONField(serialize = false)
+    private Set<UserEntity> userList;
 }

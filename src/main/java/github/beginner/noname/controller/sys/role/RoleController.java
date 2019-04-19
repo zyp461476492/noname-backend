@@ -1,6 +1,7 @@
 package github.beginner.noname.controller.sys.role;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import github.beginner.noname.common.PageConvert;
 import github.beginner.noname.constant.MsgConstant;
 import github.beginner.noname.controller.BaseController;
@@ -99,9 +100,9 @@ public class RoleController extends BaseController {
         if (roleEntity.isPresent()) {
             retMsg.setData(roleEntity.get());
         } else {
-            retMsg.setFailResponse(MsgConstant.QUERY_FAIL);
+            retMsg.setFailResponse(MsgConstant.ROLE_QUERY_FAIL);
         }
-        return JSON.toJSONString(retMsg);
+        return JSON.toJSONString(retMsg, SerializerFeature.DisableCircularReferenceDetect);
     }
 
     @GetMapping(value = "/list/")
@@ -114,6 +115,15 @@ public class RoleController extends BaseController {
                            @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
         retMsg.setData(pageConvert.convert(roleService.findAll(PageRequest.of(offset, limit))));
+        return JSON.toJSONString(retMsg);
+
+    }
+
+    @GetMapping(value = "/all/")
+    @ApiOperation(value = "查询所有的角色信息")
+    public String allRole() {
+        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
+        retMsg.setData(pageConvert.convertDTOList(roleService.queryAllRole()));
         return JSON.toJSONString(retMsg);
 
     }

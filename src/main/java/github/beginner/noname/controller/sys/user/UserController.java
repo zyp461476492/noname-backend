@@ -35,15 +35,12 @@ import java.util.Optional;
 @RequestMapping("/sys/user")
 @Api(value = "用户模块API")
 public class UserController extends BaseController {
-    private final ModelMapper modelMapper;
-
     private final UserService userService;
 
     private final PageConvert<UserEntity, UserDTO> pageConvert;
 
     @Autowired
     public UserController(UserService userService, ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
         this.userService = userService;
         pageConvert = new PageConvert<>(modelMapper, UserDTO.class,
                 new TypeToken<List<UserDTO>>(){}.getType());

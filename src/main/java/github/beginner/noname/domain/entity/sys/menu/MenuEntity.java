@@ -1,5 +1,6 @@
 package github.beginner.noname.domain.entity.sys.menu;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import github.beginner.noname.domain.entity.BaseEntity;
 import github.beginner.noname.domain.entity.sys.role.RoleEntity;
 import io.swagger.annotations.ApiModel;
@@ -8,7 +9,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,6 +22,7 @@ import java.util.Set;
 public class MenuEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "parent_id")
+    @JSONField(serialize = false)
     private MenuEntity parent;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "parent")
@@ -39,8 +40,9 @@ public class MenuEntity extends BaseEntity {
     @Column(name = "menu_order")
     private Integer order;
 
-    @ManyToMany(mappedBy = "menuList")
-    private List<RoleEntity> roleList;
+    @ManyToMany(mappedBy = "menuList", fetch = FetchType.EAGER)
+    @JSONField(serialize = false)
+    private Set<RoleEntity> roleList;
 
 
 }

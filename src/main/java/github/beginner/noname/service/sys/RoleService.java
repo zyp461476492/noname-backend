@@ -67,12 +67,19 @@ public interface RoleService {
     Optional<RoleEntity> queryRoleById(Long id);
 
     /**
-     * 查找所有角色
+     * 查找所有角色分页
      *
      * @param pageable pageable组件
      * @return 角色页
      */
     Page<RoleEntity> findAll(Pageable pageable);
+
+    /**
+     * 查询所有的角色信息，不分页
+     *
+     * @return 所有的角色信息
+     */
+    List<RoleEntity> queryAllRole();
 
     /**
      * 检查角色重名

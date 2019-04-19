@@ -23,6 +23,8 @@ public class MsgConstant {
 
     public static final String QUERY_FAIL = "查询失败";
 
+    public static final String ROLE_QUERY_FAIL = "角色信息查询失败";
+
     // user相关语句
 
     public static final String USER_NOT_EXIST = "用户不存在";

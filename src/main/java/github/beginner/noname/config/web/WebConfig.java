@@ -23,6 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        // HandlerInterceptor 和 WebRequestInterceptor 的不同
         registry.addInterceptor(jwtInterceptor).addPathPatterns("/**").excludePathPatterns("/swagger-resources/**");
     }
 
