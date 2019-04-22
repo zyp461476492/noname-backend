@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 
 /**
  * @author zyp on 2019/2/19
@@ -52,7 +53,7 @@ public class LoginController extends BaseController {
     @NotCheckJwt
     @PostMapping(value = "valid")
     @ApiOperation(value = "登录校验", notes = "登录成功，返回jwt")
-    public ResponseMsg loginValid(@RequestBody LoginVO loginReq) throws NoSuchAlgorithmException {
+    public String loginValid(@RequestBody LoginVO loginReq) throws NoSuchAlgorithmException {
         ResponseMsg resMsg = new ResponseMsg();
         resMsg.setCode(CodeConstant.FAIL_CODE);
         resMsg.setMsg("登录验证失败");
@@ -63,11 +64,16 @@ public class LoginController extends BaseController {
             log.info("encrypt---{}", encrypt);
             boolean res = encrypt.equals(visitor.getPassword());
             if (res) {
+                // 登录成功放入 jwt 和角色菜单信息
+                HashMap<String, Object> resMap = new HashMap<>();
+                String jws = JwtUtils.buildJws(visitor.getLoginId(), visitor.getId());
+                resMap.put("jwt", jws);
+                resMap.put("menuList", sysService.getUserAuthList(jws));
                 resMsg.setCode(CodeConstant.SUCCESS_CODE);
                 resMsg.setMsg("登录验证成功");
-                resMsg.setData(JwtUtils.buildJws(visitor.getLoginId(), visitor.getId()));
+                resMsg.setData(resMap);
             }
         }
-        return resMsg;
+        return JSON.toJSONString(resMsg);
     }
 }
