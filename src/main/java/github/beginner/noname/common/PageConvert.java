@@ -1,11 +1,11 @@
 package github.beginner.noname.common;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author zyp on 2019/1/10
@@ -36,6 +36,10 @@ public class PageConvert<T, R> {
     }
 
     public List<R> convertDTOList(List<T> entityList) {
+        return modelMapper.map(entityList, destinationType);
+    }
+
+    public Set<R> convertDTOSet(Set<T> entityList) {
         return modelMapper.map(entityList, destinationType);
     }
 }

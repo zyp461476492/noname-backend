@@ -1,7 +1,7 @@
 package github.beginner.noname.service.sys;
 
-import github.beginner.noname.domain.entity.sys.menu.MenuEntity;
 import github.beginner.noname.domain.entity.sys.user.UserEntity;
+import github.beginner.noname.domain.vo.sys.menu.MenuDTO;
 
 import java.util.Set;
 
@@ -11,5 +11,5 @@ import java.util.Set;
 public interface SysService {
     UserEntity findUserByLoginId(String loginId);
 
-    Set<MenuEntity> getUserAuthList(String jws);
+    Set<MenuDTO> getUserAuthList(String jws);
 }

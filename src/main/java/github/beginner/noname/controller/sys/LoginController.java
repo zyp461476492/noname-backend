@@ -1,6 +1,7 @@
 package github.beginner.noname.controller.sys;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import github.beginner.noname.annotation.NotCheckJwt;
 import github.beginner.noname.constant.CodeConstant;
 import github.beginner.noname.constant.MsgConstant;
@@ -74,6 +75,6 @@ public class LoginController extends BaseController {
                 resMsg.setData(resMap);
             }
         }
-        return JSON.toJSONString(resMsg);
+        return JSON.toJSONString(resMsg, SerializerFeature.DisableCircularReferenceDetect);
     }
 }

@@ -42,7 +42,7 @@ public final class RandomUtils {
 
     public static void main(String[] args) {
         RandomUtils randomUtils = new RandomUtils();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             System.out.println(randomUtils.uuidShort());
         }
 

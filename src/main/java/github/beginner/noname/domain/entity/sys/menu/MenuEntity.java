@@ -20,12 +20,13 @@ import java.util.Set;
 @Entity
 @Table(name = "sys_menu")
 public class MenuEntity extends BaseEntity {
+
     @ManyToOne
     @JoinColumn(name = "parent_id")
     @JSONField(serialize = false)
     private MenuEntity parent;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "parent")
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "parent")
     private Set<MenuEntity> children = new HashSet<>();
 
     @Column(name = "name", length = 128)

@@ -1,14 +1,18 @@
 package github.beginner.noname.service.sys.impl;
 
+import github.beginner.noname.common.PageConvert;
 import github.beginner.noname.domain.entity.sys.menu.MenuEntity;
 import github.beginner.noname.domain.entity.sys.role.RoleEntity;
 import github.beginner.noname.domain.entity.sys.user.UserEntity;
+import github.beginner.noname.domain.vo.sys.menu.MenuDTO;
 import github.beginner.noname.repository.sys.UserRepository;
 import github.beginner.noname.service.sys.SysService;
 import github.beginner.noname.util.JwtUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,6 +27,9 @@ import java.util.Set;
 @Slf4j
 public class SysServiceImpl implements SysService {
     @Resource
+    private ModelMapper modelMapper;
+
+    @Resource
     private UserRepository userRepository;
 
     @Override
@@ -32,7 +39,7 @@ public class SysServiceImpl implements SysService {
     }
 
     @Override
-    public Set<MenuEntity> getUserAuthList(String jws) {
+    public Set<MenuDTO> getUserAuthList(String jws) {
         Set<MenuEntity> menuSet = new HashSet<>(16);
         UserEntity user = parseUser(jws);
         if (user != null) {
@@ -41,8 +48,11 @@ public class SysServiceImpl implements SysService {
                 menuSet.addAll(role.getMenuList());
             }
         }
+        PageConvert<MenuEntity, MenuDTO> pageConvert
+                = new PageConvert<>(modelMapper, MenuDTO.class, new TypeToken<Set<MenuDTO>>() {
+        }.getType());
         log.info("menuList size {}", menuSet.size());
-        return menuSet;
+        return pageConvert.convertDTOSet(menuSet);
     }
 
     private UserEntity parseUser(String jws) {
