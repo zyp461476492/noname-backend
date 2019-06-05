@@ -1,7 +1,6 @@
 package github.beginner.noname.controller.sys;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import github.beginner.noname.annotation.NotCheckJwt;
 import github.beginner.noname.constant.CodeConstant;
 import github.beginner.noname.constant.MsgConstant;
@@ -65,16 +64,15 @@ public class LoginController extends BaseController {
             log.info("encrypt---{}", encrypt);
             boolean res = encrypt.equals(visitor.getPassword());
             if (res) {
-                // 登录成功放入 jwt 和角色菜单信息
+                // 登录成功放入jwt
                 HashMap<String, Object> resMap = new HashMap<>();
                 String jws = JwtUtils.buildJws(visitor.getLoginId(), visitor.getId());
                 resMap.put("jwt", jws);
-                resMap.put("menuList", sysService.getUserAuthList(jws));
                 resMsg.setCode(CodeConstant.SUCCESS_CODE);
                 resMsg.setMsg("登录验证成功");
                 resMsg.setData(resMap);
             }
         }
-        return JSON.toJSONString(resMsg, SerializerFeature.DisableCircularReferenceDetect);
+        return JSON.toJSONString(resMsg);
     }
 }

@@ -10,6 +10,7 @@ import github.beginner.noname.domain.dto.common.ResponseMsg;
 import github.beginner.noname.domain.dto.common.UpdateDTO;
 import github.beginner.noname.domain.dto.sys.user.UserDTO;
 import github.beginner.noname.domain.entity.sys.user.UserEntity;
+import github.beginner.noname.service.sys.SysService;
 import github.beginner.noname.service.sys.UserService;
 import github.beginner.noname.util.EncryptUtils;
 import io.swagger.annotations.Api;
@@ -37,11 +38,14 @@ import java.util.Optional;
 public class UserController extends BaseController {
     private final UserService userService;
 
+    private final SysService sysService;
+
     private final PageConvert<UserEntity, UserDTO> pageConvert;
 
     @Autowired
-    public UserController(UserService userService, ModelMapper modelMapper) {
+    public UserController(UserService userService, SysService sysService, ModelMapper modelMapper) {
         this.userService = userService;
+        this.sysService = sysService;
         pageConvert = new PageConvert<>(modelMapper, UserDTO.class,
                 new TypeToken<List<UserDTO>>(){}.getType());
     }
@@ -60,7 +64,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping(value = "/org/{id}")
-    @ApiOperation(value = "用户信息分页查询")
+    @ApiOperation(value = "用户信息查询")
     @ApiImplicitParam(name = "id", value = "组织机构ID", required = true, dataType = "Long", example = "0")
     public String queryUserByOrg(@PathVariable("id") Long orgId) {
         ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
@@ -80,6 +84,15 @@ public class UserController extends BaseController {
             retMsg.setFailResponse(MsgConstant.QUERY_FAIL);
         }
         return JSON.toJSONString(retMsg);
+    }
+
+    @GetMapping(value = "/authority/")
+    @ApiOperation(value = "用户权限查询", notes = "查询用户所拥有的菜单权限")
+    @ApiImplicitParam(name = "jwt", value = "登录token", required = true, dataType = "String", example = "1")
+    public String queryUserAuthorities(@RequestParam("jwt") String jwt) {
+        ResponseMsg retMsg = ResponseMsg.succMsg(MsgConstant.QUERY_SUCC);
+        retMsg.setData(sysService.getUserAuthList(jwt));
+        return JSON.toJSONString(retMsg, SerializerFeature.DisableCircularReferenceDetect);
     }
 
     @PostMapping(value = "/add/")

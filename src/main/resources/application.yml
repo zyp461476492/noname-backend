@@ -2,13 +2,13 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/noname?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
     type: com.alibaba.druid.pool.DruidDataSource
-    username: nonamedbuser
-    password: 794613
+    username: noname
+    password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     open-in-view: false
 
 
